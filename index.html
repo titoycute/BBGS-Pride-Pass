@@ -93,7 +93,7 @@
     <script type="module">
         // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, getDocs, writeBatch, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         // --- Main Application Logic ---
@@ -374,6 +374,8 @@
                     }
                     this.elements.loadingOverlay.classList.add('hidden');
                 });
+                
+                this.handleRedirectResult();
             };
             
             // --- REAL-TIME LISTENERS ---
@@ -504,32 +506,37 @@
             this.handleLogout = async () => { await signOut(this.fb.auth); };
             this.handleGoogleLogin = async () => {
                 const provider = new GoogleAuthProvider();
+                await signInWithRedirect(this.fb.auth, provider);
+            };
+            this.handleRedirectResult = async () => {
                 try {
-                    const result = await signInWithPopup(this.fb.auth, provider);
-                    const user = result.user;
-                    const userDocRef = doc(this.fb.db, this.paths.users, user.uid);
-                    const userDoc = await getDoc(userDocRef);
+                    const result = await getRedirectResult(this.fb.auth);
+                    if (result) {
+                        const user = result.user;
+                        const userDocRef = doc(this.fb.db, this.paths.users, user.uid);
+                        const userDoc = await getDoc(userDocRef);
 
-                    if (!userDoc.exists()) {
-                        // Create a new profile for a new Google user
-                        const [firstName, ...lastNameParts] = user.displayName.split(' ');
-                        const userProfile = {
-                            email: user.email,
-                            firstName: firstName || 'New',
-                            lastName: lastNameParts.join(' ') || 'User',
-                            skills: 'N/A',
-                            contact: '',
-                            social: '',
-                            points: 100,
-                            profilePic: user.photoURL || `https://placehold.co/400x400/F59E0B/FFFFFF?text=${(firstName || 'N').charAt(0)}`,
-                            memberSince: new Date().toLocaleDateString(),
-                            isPublic: false,
-                            earnedBadgeIds: []
-                        };
-                        await setDoc(userDocRef, userProfile);
-                        await this.addPointLog(user.uid, 'Account Created with Google', 100);
+                        if (!userDoc.exists()) {
+                            const [firstName, ...lastNameParts] = user.displayName.split(' ');
+                            const userProfile = {
+                                email: user.email,
+                                firstName: firstName || 'New',
+                                lastName: lastNameParts.join(' ') || 'User',
+                                skills: 'N/A',
+                                contact: '',
+                                social: '',
+                                points: 100,
+                                profilePic: user.photoURL || `https://placehold.co/400x400/F59E0B/FFFFFF?text=${(firstName || 'N').charAt(0)}`,
+                                memberSince: new Date().toLocaleDateString(),
+                                isPublic: false,
+                                earnedBadgeIds: []
+                            };
+                            await setDoc(userDocRef, userProfile);
+                            await this.addPointLog(user.uid, 'Account Created with Google', 100);
+                        }
                     }
                 } catch (error) {
+                    console.error("Google Redirect Error:", error);
                     this.showModal('error', 'Google Sign-In Failed', error.message);
                 }
             };
