@@ -79,7 +79,7 @@
         /* --- Theme Styles --- */
 
         /* Default Theme */
-        body.theme-default {
+      body.theme-default {
             background-color: #111827;
         }
 
@@ -554,9 +554,9 @@
                                 <input name="password" type="password" placeholder="Password" required class="w-full bg-gray-700 border-2 border-transparent focus:border-pink-500 rounded-lg p-3 outline-none transition-all">
                                 <button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold transition-transform duration-200 active:scale-95">Log In</button>
                             </form>
-                         <!--   <div class="relative my-4"><div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-600"></div></div><div class="relative flex justify-center text-sm"><span class="bg-gray-900 px-2 text-gray-400">Or continue with</span></div></div>
+                             <!--   <div class="relative my-4"><div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-600"></div></div><div class="relative flex justify-center text-sm"><span class="bg-gray-900 px-2 text-gray-400">Or continue with</span></div></div>
                             <button type="button" onclick="app.handleGoogleLogin()" class="w-full flex items-center justify-center space-x-2 bg-white text-gray-800 py-3 rounded-lg font-semibold transition-colors hover:bg-gray-200"><svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.021 35.596 44 30.138 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg><span>Sign in with Google</span></button>
-                       --> </div>
+                       --> </div>  
                         <div x-show="tab === 'register'" style="display: none;"><form id="register-form" class="space-y-4 p-4"><div class="grid grid-cols-2 gap-4"><input name="firstName" type="text" placeholder="First Name*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="lastName" type="text" placeholder="Last Name*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="middleName" type="text" placeholder="Middle Name" class="w-full bg-gray-700 rounded-lg p-3"><input name="suffix" type="text" placeholder="Suffix" class="w-full bg-gray-700 rounded-lg p-3"></div><input name="skills" type="text" placeholder="Skills/Talents (e.g., Host, Singer)" required class="w-full bg-gray-700 rounded-lg p-3"><input name="contact" type="tel" placeholder="Contact Number*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="social" type="text" placeholder="Social Media Address" class="w-full bg-gray-700 rounded-lg p-3"><input name="email" type="email" placeholder="Email Address*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="password" type="password" placeholder="Password*" required class="w-full bg-gray-700 rounded-lg p-3"><button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold">Create My Account</button></form></div>
                     </div>`,
                 dashboard: () => {
@@ -673,7 +673,9 @@
                     ${this.state.badges.map(badge => {
                         const hasEarned = this.state.earnedBadges.some(eb => eb.badgeId === badge.id);
                         return `
-                        <div class="text-center p-2 bg-gray-700 rounded-lg ${hasEarned ? '' : 'opacity-40'}" onclick="app.showModal('info', '${badge.name}', '${badge.description}')">
+                        <div class="badge-item text-center p-2 bg-gray-700 rounded-lg cursor-pointer ${hasEarned ? '' : 'opacity-40'}" 
+                             data-name="${badge.name.replace(/"/g, '&quot;')}" 
+                             data-description="${badge.description.replace(/"/g, '&quot;')}">
                             <i data-lucide="${badge.icon}" class="w-12 h-12 mx-auto ${hasEarned ? 'text-amber-400' : 'text-gray-500'}"></i>
                             <p class="text-xs mt-2 font-semibold">${badge.name}</p>
                         </div>
@@ -727,7 +729,7 @@
                     `
                 },
                 scanner: () => `<div class="text-center"><h2 class="text-2xl font-bold mb-2">Scan QR Code</h2><p class="text-gray-400 mb-4">Scan an event or reward QR code.</p><div id="qr-reader" class="w-full rounded-2xl overflow-hidden border-4 border-gray-700"></div><p id="qr-reader-status" class="mt-4 text-sm text-gray-400">Initializing camera...</p></div>`,
-                about: () => `<h2 class="text-2xl font-bold text-center mb-6">About Pride Pass</h2><div class="space-y-6 bg-gray-900/50 p-6 rounded-xl"><div><h3 class="font-semibold text-lg text-pink-400 mb-2">BBGS Point System</h3><p class="text-gray-300">Our Point System rewards your engagement! Earn points for attending events, volunteering, and participating in workshops. Redeem them for exclusive merch, VIP access, and more!</p></div><div><h3 class="font-semibold text-lg text-purple-400 mb-2">About The App</h3><p class="text-gray-300">The BBGS Pride Pass is a digital initiative by the Biliran Bisexual and Gay Society to foster a stronger, more connected community through our innovative QR code system.</p></div><div><h3 class="font-semibold text-lg text-amber-400 mb-2">Contact & Support</h3><p class="text-gray-300">For technical issues or feedback, please contact the platform administrator: <br><strong class="text-white">${this.state.adminEmail}</strong></p></div><p class="text-center text-xs text-gray-500 pt-4">App Version 1.0.2 (Pride Pass) | © 2025 BBGS | Dev: Tootzkie</p></div>`,
+                about: () => `<h2 class="text-2xl font-bold text-center mb-6">About Pride Pass</h2><div class="space-y-6 bg-gray-900/50 p-6 rounded-xl"><div><h3 class="font-semibold text-lg text-pink-400 mb-2">BBGS Point System</h3><p class="text-gray-300">Our Point System rewards your engagement! Earn points for attending events, volunteering, and participating in workshops. Redeem them for exclusive merch, VIP access, and more!</p></div><div><h3 class="font-semibold text-lg text-purple-400 mb-2">About The App</h3><p class="text-gray-300">The BBGS Pride Pass is a digital initiative by the Biliran Bisexual and Gay Society to foster a stronger, more connected community through our innovative QR code system.</p></div><div><h3 class="font-semibold text-lg text-amber-400 mb-2">Contact & Support</h3><p class="text-gray-300">For technical issues or feedback, please contact the platform administrator: <br><strong class="text-white">${this.state.adminEmail}</strong></p></div><p class="text-center text-xs text-gray-500 pt-4">App Version 5.0.0 (Engagement Update) | © 2024 BBGS</p></div>`,
                 profile: () => {
                     const user = this.state.loggedInUser;
                     const earnedBadges = this.state.earnedBadges.map(earned => this.state.badges.find(b => b.id === earned.badgeId)).filter(Boolean);
@@ -774,7 +776,7 @@
                         <h3 class="text-xl font-bold text-center mb-4">My Achievements</h3>
                         <div class="grid grid-cols-3 sm:grid-cols-4 gap-4">
                             ${earnedBadges.length > 0 ? earnedBadges.map(badge => `
-                                <div class="text-center p-2 bg-gray-700 rounded-lg" onclick="app.showModal('info', '${badge.name}', '${badge.description}')">
+                                <div class="badge-item text-center p-2 bg-gray-700 rounded-lg cursor-pointer" data-name="${badge.name.replace(/"/g, '&quot;')}" data-description="${badge.description.replace(/"/g, '&quot;')}">
                                     <i data-lucide="${badge.icon}" class="w-12 h-12 mx-auto text-amber-400"></i>
                                     <p class="text-xs mt-2 font-semibold">${badge.name}</p>
                                 </div>
@@ -1388,6 +1390,16 @@
                 } else if (e.target.id === 'register-form') {
                     e.preventDefault();
                     app.handleRegister(e);
+                }
+            });
+
+            // Add event delegation for badge clicks
+            app.elements.mainContent.addEventListener('click', (e) => {
+                const badgeElement = e.target.closest('.badge-item');
+                if (badgeElement) {
+                    const name = badgeElement.dataset.name;
+                    const description = badgeElement.dataset.description;
+                    app.showModal('info', name, description);
                 }
             });
         });
