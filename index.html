@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBGS Pride Pass</title>
+    <title>Pride Pass</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png"
@@ -116,26 +116,6 @@
             color: #9ca3af;
         }
 
-        /* Rainbow Theme */
-        #video-background-container {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        #video-background-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            pointer-events: none;
-            /* Makes the video unclickable */
-        }
-
         body.theme-rainbow #video-background-container {
             display: block;
         }
@@ -171,6 +151,79 @@
         body.theme-rainbow .border-purple-500 {
             border-image: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet) 1;
         }
+
+        /* Rainbow-Linear Overrides */
+        body.theme-rainbow2 {
+            background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+            background-size: 400% 400%;
+            animation: rainbow-bg 15s ease infinite;
+        }
+
+        @keyframes rainbow-bg {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body.theme-rainbow2 #app {
+            background: linear-gradient(45deg, #ff00b3, #0084ff, #0099ff);
+            background-size: 400% 100%;
+            animation: rainbow-bg 15s ease infinite;
+            /* background-size: cover;
+            background-position: center; */
+        }
+
+        body.theme-rainbow2 #app-header,
+        body.theme-rainbow2 #app-nav,
+        body.theme-rainbow2 .modal-fade-in,
+        body.theme-rainbow2 .bg-gray-900\/50,
+        body.theme-rainbow2 .bg-gray-700,
+        body.theme-rainbow2 .bg-gray-800,
+        body.theme-rainbow2 .bg-gray-900 {
+            background-color: #000000 !important;
+        }
+
+        body.theme-rainbow2 .text-white {
+            color: #ffffff !important;
+        }
+
+        body.theme-rainbow2 .text-gray-300,
+        body.theme-rainbow2 .text-gray-400 {
+            color: #ffffff !important;
+        }
+
+        body.theme-rainbow2 .pride-gradient-text,
+        body.theme-rainbow2 .text-pink-400,
+        body.theme-rainbow2 .text-purple-400,
+        body.theme-rainbow2 .text-amber-400,
+        body.theme-rainbow2 .text-green-400,
+        body.theme-rainbow2 .text-red-400,
+        body.theme-rainbow2 .text-blue-400 {
+            color: #ffffff !important;
+            background: none;
+            -webkit-text-fill-color: unset;
+        }
+
+        body.theme-rainbow2 .pride-gradient-bg,
+        body.theme-rainbow2 .accent-pink-500 {
+            background: #474747 !important;
+            accent-color: #ad8500;
+        }
+
+        body.theme-rainbow2 .border-pink-500,
+        body.theme-rainbow2 .border-purple-500 {
+            border-color: #f048ff !important;
+        }
+
+
 
         /* Light Theme Overrides */
         body.theme-light {
@@ -804,8 +857,8 @@
                     `
                 },
                 scanner: () => `<div class="text-center"><h2 class="text-2xl font-bold mb-2">Scan QR Code</h2><p class="text-gray-400 mb-4">Scan an event or reward QR code.</p><div id="qr-reader" class="w-full rounded-2xl overflow-hidden border-4 border-gray-700"></div><p id="qr-reader-status" class="mt-4 text-sm text-gray-400">Initializing camera...</p></div>`,
-                about: () => `<h2 class="text-2xl font-bold text-center mb-6">About Pride Pass</h2><div class="space-y-6 bg-gray-900/50 p-6 rounded-xl"><div><h3 class="font-semibold text-lg text-pink-400 mb-2">BBGS Point System</h3><p class="text-gray-300">Our Point System rewards your engagement! Earn points for attending events, volunteering, and participating in workshops. Redeem them for exclusive merch, VIP access, and more!</p></div><div><h3 class="font-semibold text-lg text-purple-400 mb-2">About The App</h3><p class="text-gray-300">The BBGS Pride Pass is a digital initiative by the Biliran Bisexual and Gay Society to foster a stronger, more connected community through our innovative QR code system.</p></div><div><h3 class="font-semibold text-lg text-amber-400 mb-2">Contact & Support</h3><p class="text-gray-300">For technical issues or feedback, please contact the platform administrator: <br><strong class="text-white">${this.state.adminEmail}</strong></p></div><p class="text-center text-xs text-gray-500 pt-4">App Version 5.2.0 (Reward Rules Update) | © 2024 BBGS</p></div>`,
-                profile: () => {
+               about: () => `<h2 class="text-2xl font-bold text-center mb-6">About Pride Pass</h2><div class="space-y-6 bg-gray-900/50 p-6 rounded-xl"><div><h3 class="font-semibold text-lg text-pink-400 mb-2">BBGS Pride Pass: Your Community Hub</h3><p class="text-gray-300">The BBGS Pride Pass is a digital initiative by the Biliran Bisexual and Gay Society. It’s your all-in-one community pass, using an innovative QR code system to connect us, streamline event check-ins, and make it easier than ever to be an active part of the BBGS family.</p></div><div><h3 class="font-semibold text-lg text-purple-400 mb-2">Points, Badges, & Leaderboard</h3><p class="text-gray-300">We celebrate your engagement!<br> Our <storng>Points & Badges System</strong> rewards you for attending events, volunteering, and participating in workshops. As you earn points, you'll unlock special digital badges and climb the <strong>Leaderboard</strong>, showcasing your commitment to the community. Redeem your points for exclusive merch, VIP access, and more!</p></div><div><h3 class="font-semibold text-lg text-amber-400 mb-2">Support & Connect</h3><p class="text-gray-300">This platform was built to serve you. Your support is vital for our growth and for adding more features for the community. For technical issues, feedback, or inquiries about the platform, please contact our administrator:<br><strong class="text-white"><!--${this.state.adminEmail}--> Tito Amerigo V. Custodio, Jr., MIT <br> titoycustodio@bipsu.edu.ph</strong><br><strong>09666517133</strong></p></div><p class="text-center text-xs text-gray-500 pt-4">App Version 2.0.2 (BBGS Pride Pass QR Code System) <br> © 2025 BBGS Dev Tootz </p></div>`,
+             profile: () => {
                     const user = this.state.loggedInUser;
                     const earnedBadges = this.state.earnedBadges.map(earned => this.state.badges.find(b => b.id === earned.badgeId)).filter(Boolean);
                     return `
@@ -841,6 +894,7 @@
                                     <option value="blue" ${user.theme === 'blue' ? 'selected' : ''}>Blue Spectrum</option>
                                     <option value="green" ${user.theme === 'green' ? 'selected' : ''}>Green</option>
                                     <option value="pink" ${user.theme === 'pink' ? 'selected' : ''}>Pink Glitter</option>
+                                    <option value="rainbow2" ${user.theme === 'rainbow2' ? 'selected' : ''}>Linear Rainbow</option>
                                     <option value="rainbow" ${user.theme === 'rainbow' ? 'selected' : ''}>Digital Rainbow </option>
                                 </select>
                             </div>
@@ -1531,7 +1585,76 @@
             this.handleAdminApproveUser = async (userId) => { const user = this.state.users.find(u => u.id === userId); if (!user) return; await updateDoc(doc(this.fb.db, this.paths.userDoc(userId)), { isValidated: true, validatedAt: new Date().toLocaleDateString() }); await this.logAction('ADMIN_APPROVE_USER', `Approved user: ${user.firstName} ${user.lastName}.`); this.showModal('success', 'User Approved', 'The member now has full access.'); this.state.adminActiveTab = 'verification'; };
             this.handleAdminUpdateEvent = async (e) => { e.preventDefault(); const formData = new FormData(e.target); const eventId = formData.get('eventId'); const eventName = formData.get('eventName'); await updateDoc(doc(this.fb.db, this.paths.eventDoc(eventId)), { name: eventName, description: formData.get('eventDescription'), points: parseInt(formData.get('eventPoints'), 10), badgeId: formData.get('badgeId') || null, isVisible: formData.get('isVisible') === 'on', timestamp: Timestamp.fromDate(new Date(formData.get('eventDate'))) }); await this.logAction('ADMIN_UPDATE_EVENT', `Updated event: "${eventName}".`); this.closeFullscreenModal(); this.showModal('success', 'Event Updated', 'The event details have been saved.'); this.state.adminActiveTab = 'events'; };
             this.handleAdminDeleteEvent = async (eventId) => { const event = this.state.events.find(e => e.id === eventId); if (!event) return; this.showModal('confirm', 'Delete Event?', 'This will permanently delete the event and its QR code. This cannot be undone.', async () => { await deleteDoc(doc(this.fb.db, this.paths.eventDoc(eventId))); await this.logAction('ADMIN_DELETE_EVENT', `Deleted event: "${event.name}".`); this.closeFullscreenModal(); this.showModal('success', 'Event Deleted', 'The event has been removed.'); this.state.adminActiveTab = 'events'; }); };
-            this.handleAdminUpdateReward = async (e) => { e.preventDefault(); const formData = new FormData(e.target); const rewardId = formData.get('rewardId'); const rewardName = formData.get('rewardName'); await updateDoc(doc(this.fb.db, this.paths.rewardDoc(rewardId)), { name: rewardName, cost: parseInt(formData.get('rewardCost'), 10), type: formData.get('rewardType'), isVisible: formData.get('isVisible') === 'on', badgeId: formData.get('badgeId') || null }); await this.logAction('ADMIN_UPDATE_REWARD', `Updated reward: "${rewardName}".`); this.closeFullscreenModal(); this.showModal('success', 'Reward Updated', 'The reward details have been saved.'); this.state.adminActiveTab = 'rewards'; };
+            this.handleAdminUpdateReward = async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const rewardId = formData.get('rewardId');
+                const rewardName = formData.get('rewardName');
+                const cost = parseInt(formData.get('rewardCost'));
+                const type = formData.get('rewardType');
+                const badgeId = formData.get('badgeId');
+                const claimType = formData.get('claimType');
+                const claimLimitType = formData.get('claimLimitType');
+                const claimLimit = claimLimitType === 'limited' ? parseInt(formData.get('claimLimit')) : null;
+                const isVisible = formData.get('isVisible') === 'on';
+
+                let schedules = [];
+                if (claimType === 'scheduled') {
+                    const dateInputs = document.querySelectorAll('input[name="scheduleDate"]');
+                    const startInputs = document.querySelectorAll('input[name="scheduleStart"]');
+                    const endInputs = document.querySelectorAll('input[name="scheduleEnd"]');
+                    for (let i = 0; i < dateInputs.length; i++) {
+                        if (dateInputs[i].value && startInputs[i].value && endInputs[i].value) {
+                            schedules.push({
+                                startDate: `${dateInputs[i].value}T${startInputs[i].value}`,
+                                endDate: `${dateInputs[i].value}T${endInputs[i].value}`,
+                            });
+                        }
+                    }
+                }
+
+                const dailySchedule = {};
+                if (claimType === 'daily') {
+                    const days = [];
+                    document.querySelectorAll('input[name^="day_"]:checked').forEach(cb => {
+                        days.push(parseInt(cb.value));
+                    });
+
+                    const times = [];
+                    const startInputs = document.querySelectorAll('input[name="dailyStart"]');
+                    const endInputs = document.querySelectorAll('input[name="dailyEnd"]');
+                    for (let i = 0; i < startInputs.length; i++) {
+                        if (startInputs[i].value && endInputs[i].value) {
+                            times.push({
+                                start: startInputs[i].value,
+                                end: endInputs[i].value,
+                            });
+                        }
+                    }
+                    dailySchedule.days = days;
+                    dailySchedule.times = times;
+                }
+
+                const updatedData = {
+                    name: rewardName,
+                    cost,
+                    type,
+                    badgeId: badgeId || null,
+                    isVisible,
+                    claimType,
+                    claimLimitType,
+                    claimLimit,
+                    claimsLeft: claimLimit,
+                    schedules,
+                    dailySchedule: claimType === 'daily' ? dailySchedule : null,
+                };
+
+                await updateDoc(doc(this.fb.db, this.paths.rewardDoc(rewardId)), updatedData);
+                await this.logAction('ADMIN_UPDATE_REWARD', `Updated reward: "${rewardName}".`);
+                this.closeFullscreenModal();
+                this.showModal('success', 'Reward Updated', 'The reward details have been saved.');
+                this.state.adminActiveTab = 'rewards';
+            };
             this.handleAdminUpdateBadge = async (e) => { e.preventDefault(); const formData = new FormData(e.target); const badgeId = formData.get('badgeId'); const badgeName = formData.get('badgeName'); const iconSelect = formData.get('badgeIconSelect'); const iconText = formData.get('badgeIconText').trim(); const iconUrl = formData.get('badgeIconUrl').trim(); const icon = iconUrl || iconText || iconSelect; const criteriaValue = formData.get('badgeCriteriaValue'); const updatedBadge = { name: badgeName, description: formData.get('badgeDescription'), icon: icon, criteria: { type: formData.get('badgeCriteriaType'), value: criteriaValue ? parseInt(criteriaValue) : 0 }, isVisible: formData.get('isVisible') === 'on' }; if (updatedBadge.name && updatedBadge.icon) { await updateDoc(doc(this.fb.db, this.paths.badgeDoc(badgeId)), updatedBadge); await this.logAction('ADMIN_UPDATE_BADGE', `Updated badge: "${badgeName}".`); this.closeFullscreenModal(); this.showModal('success', 'Badge Updated', 'The badge has been saved.'); this.state.adminActiveTab = 'badges'; } else { this.showModal('error', 'Invalid Input', 'Please provide at least a Badge Name and an Icon.'); } };
             this.handleAdminDeleteUser = (userId) => { const user = this.state.users.find(u => u.id === userId); if (!user) return; this.showModal('confirm', 'Delete User?', `Are you sure you want to delete ${user.firstName} ${user.lastName}? This will only remove their data, not their login.`, async () => { await deleteDoc(doc(this.fb.db, this.paths.userDoc(userId))); await this.logAction('ADMIN_DELETE_USER', `Deleted user: ${user.firstName} ${user.lastName} (${user.email}).`); this.closeFullscreenModal(); this.showModal('success', 'User Deleted', `${user.firstName}'s data has been removed.`); this.state.adminActiveTab = 'members'; }); };
             this.handleAdminPasswordReset = (email) => { this.showModal('confirm', 'Send Password Reset?', `This will send a password reset link to ${email}.`, async () => { try { await sendPasswordResetEmail(this.fb.auth, email); this.showModal('success', 'Email Sent', `A password reset link has been sent to ${email}.`); } catch (error) { this.showModal('error', 'Failed to Send', error.message); } }); };
@@ -1632,14 +1755,14 @@
                 container.appendChild(row);
                 lucide.createIcons();
             };
-            this.addScheduleRow = () => {
+            this.addScheduleRow = (date = '', start = '', end = '') => {
                 const container = document.getElementById('scheduled-dates-container');
                 const row = document.createElement('div');
                 row.className = 'flex items-center space-x-2';
                 row.innerHTML = `
-                    <input type="date" name="scheduleDate" class="w-full bg-gray-600 rounded-lg p-2 text-sm">
-                    <input type="time" name="scheduleStart" class="w-full bg-gray-600 rounded-lg p-2 text-sm">
-                    <input type="time" name="scheduleEnd" class="w-full bg-gray-600 rounded-lg p-2 text-sm">
+                    <input type="date" name="scheduleDate" class="w-full bg-gray-600 rounded-lg p-2 text-sm" value="${date}">
+                    <input type="time" name="scheduleStart" class="w-full bg-gray-600 rounded-lg p-2 text-sm" value="${start}">
+                    <input type="time" name="scheduleEnd" class="w-full bg-gray-600 rounded-lg p-2 text-sm" value="${end}">
                     <button type="button" onclick="this.parentElement.remove()" class="p-2 bg-red-500/20 text-red-400 rounded-md"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                 `;
                 container.appendChild(row);
@@ -1676,7 +1799,45 @@
             this.openMemberDetailsModal = (userId) => { const user = this.state.users.find(u => u.id === userId); if (!user) return; const earnedBadges = (user.earnedBadgeIds || []).map(badgeId => this.state.badges.find(b => b.id === badgeId)).filter(Boolean); const content = `<div class="text-center space-y-4"><img src="${user.profilePic}" class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-purple-500"><h2 class="text-2xl font-bold">${user.firstName} ${user.lastName}</h2><p class="text-gray-400">${user.skills || 'No skills listed'}</p><p class="text-gray-300 font-semibold">${user.contact}</p><div class="mt-4 border-t border-gray-600 pt-4"><h4 class="font-semibold text-center mb-2">Earned Badges</h4><div class="grid grid-cols-3 sm:grid-cols-4 gap-4">${earnedBadges.length > 0 ? earnedBadges.map(badge => `<div class="text-center p-2 bg-gray-700 rounded-lg">${this.renderBadgeIcon(badge.icon, 'w-10 h-10 mx-auto text-amber-400')}<p class="text-xs mt-2 font-semibold">${badge.name}</p></div>`).join('') : '<p class="text-gray-400 col-span-full">No badges earned yet.</p>'}</div></div></div>`; this.openFullscreenModal(`Member Details`, content); };
             this.openUserEditModal = (userId) => { const user = this.state.users.find(u => u.id === userId); if (!user) return; const content = `<form id="admin-edit-user-form" class="space-y-4"><input type="hidden" name="userId" value="${user.id}"><div class="grid grid-cols-2 gap-4"><div><label class="text-sm text-gray-400">First Name</label><input name="firstName" value="${user.firstName}" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><div><label class="text-sm text-gray-400">Last Name</label><input name="lastName" value="${user.lastName}" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div></div><div><label class="text-sm text-gray-400">Skills</label><input name="skills" value="${user.skills}" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><div><label class="text-sm text-gray-400">Points</label><input name="points" type="number" value="${user.points}" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><div class="bg-gray-900/50 p-4 rounded-lg flex justify-between items-center"><label for="is-validated" class="font-semibold">Validated Member</label><input type="checkbox" id="is-validated" name="isValidated" ${user.isValidated ? 'checked' : ''} class="h-6 w-6 rounded-md accent-pink-500"></div><p class="text-xs text-gray-400 text-center">Validated on: ${user.validatedAt || 'N/A'}</p><button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold mt-4">Save Changes</button><div class="flex space-x-2"><button type="button" onclick="app.handleAdminPasswordReset('${user.email}')" class="w-full bg-blue-500/20 text-blue-400 py-3 rounded-lg font-semibold mt-2">Send Password Reset</button><button type="button" onclick="app.handleAdminDeleteUser('${user.id}')" class="w-full bg-red-500/20 text-red-400 py-3 rounded-lg font-semibold mt-2">Delete User</button></div><div class="mt-4 border-t border-gray-600 pt-4"><h4 class="font-semibold text-center mb-2">Manage Badges</h4><div class="space-y-2">${this.state.badges.map(badge => { const hasBadge = (user.earnedBadgeIds || []).includes(badge.id); return `<div class="flex items-center justify-between bg-gray-700 p-2 rounded-lg"> <div class="flex items-center space-x-2"> ${this.renderBadgeIcon(badge.icon, 'w-5 h-5 text-amber-400')} <p>${badge.name}</p> </div> <button type="button" onclick="app.handleAdminManageBadge('${user.id}', '${badge.id}')" class="px-3 py-1 text-xs font-semibold rounded-md ${hasBadge ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${hasBadge ? 'Revoke' : 'Grant'}</button> </div>` }).join('')}</div></div></form>`; this.openFullscreenModal(`Edit ${user.firstName}'s Profile`, content); document.getElementById('admin-edit-user-form').addEventListener('submit', this.handleAdminUpdateUser.bind(this)); };
             this.openAddMemberModal = () => { const content = `<form id="admin-add-user-form" class="space-y-4"><div class="grid grid-cols-2 gap-4"><div><label class="text-sm text-gray-400">First Name*</label><input name="firstName" required class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><div><label class="text-sm text-gray-400">Last Name*</label><input name="lastName" required class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div></div><div><label class="text-sm text-gray-400">Email*</label><input name="email" type="email" required class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><div><label class="text-sm text-gray-400">Password*</label><input name="password" required class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><div><label class="text-sm text-gray-400">Skills</label><input name="skills" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><div><label class="text-sm text-gray-400">Starting Points</label><input name="points" type="number" value="0" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold mt-4">Create Account</button></form>`; this.openFullscreenModal('Add New Member', content); document.getElementById('admin-add-user-form').addEventListener('submit', this.handleAdminAddMember.bind(this)); };
-            this.openRewardEditModal = (rewardId) => { const reward = this.state.rewards.find(r => r.id === rewardId); if (!reward) return; const content = `<form id="admin-edit-reward-form" class="space-y-4"><input type="hidden" name="rewardId" value="${reward.id}"><div><label class="text-sm text-gray-400">Reward Name</label><input name="rewardName" value="${reward.name}" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><div><label class="text-sm text-gray-400">Point Value</label><input name="rewardCost" type="number" value="${reward.cost}" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div><div><label class="text-sm text-gray-400">Reward Type</label><select name="rewardType" class="w-full bg-gray-700 rounded-lg p-3 mt-1"><option value="cost" ${reward.type === 'cost' ? 'selected' : ''}>Cost (Subtracts Points)</option><option value="gain" ${reward.type === 'gain' ? 'selected' : ''}>Gain (Adds Points)</option></select></div><div><label class="text-sm text-gray-400">Optional Badge Reward</label><select name="badgeId" class="w-full bg-gray-700 rounded-lg p-3 mt-1"><option value="">No Badge for this Reward</option>${this.state.badges.map(badge => `<option value="${badge.id}" ${reward.badgeId === badge.id ? 'selected' : ''}>${badge.name}</option>`).join('')}</select></div><div class="flex items-center space-x-2"><input type="checkbox" id="reward-visible" name="isVisible" ${reward.isVisible ? 'checked' : ''} class="h-5 w-5 rounded accent-pink-500"><label for="reward-visible">Visible to Members</label></div><button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold mt-4">Save Changes</button></form>`; this.openFullscreenModal(`Edit Reward: ${reward.name}`, content); document.getElementById('admin-edit-reward-form').addEventListener('submit', this.handleAdminUpdateReward.bind(this)); };
+            this.openRewardEditModal = (rewardId) => {
+                const reward = this.state.rewards.find(r => r.id === rewardId);
+                if (!reward) return;
+
+                const content = `
+                <form id="admin-edit-reward-form" class="space-y-4" x-data="{ claimType: '${reward.claimType || 'once'}', limitType: '${reward.claimLimitType || 'unlimited'}' }">
+                    <input type="hidden" name="rewardId" value="${reward.id}">
+                    <div><label class="text-sm text-gray-400">Reward Name</label><input name="rewardName" value="${reward.name}" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div>
+                    <div><label class="text-sm text-gray-400">Point Value</label><input name="rewardCost" type="number" value="${reward.cost}" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div>
+                    <div><label class="text-sm text-gray-400">Reward Type</label><select name="rewardType" class="w-full bg-gray-700 rounded-lg p-3 mt-1"><option value="cost" ${reward.type === 'cost' ? 'selected' : ''}>Cost (Subtracts Points)</option><option value="gain" ${reward.type === 'gain' ? 'selected' : ''}>Gain (Adds Points)</option></select></div>
+                    <div><label class="text-sm text-gray-400">Optional Badge Reward</label><select name="badgeId" class="w-full bg-gray-700 rounded-lg p-3 mt-1"><option value="">No Badge for this Reward</option>${this.state.badges.map(badge => `<option value="${badge.id}" ${reward.badgeId === badge.id ? 'selected' : ''}>${badge.name}</option>`).join('')}</select></div>
+                    
+                    <div><label class="text-sm text-gray-400">Claim Frequency</label><select name="claimType" x-model="claimType" class="w-full bg-gray-700 rounded-lg p-3 mt-1"><option value="once">Once Only</option><option value="daily">Once a Day (Scheduled)</option><option value="scheduled">Specific Dates</option></select></div>
+                    <div x-show="claimType === 'daily'" class="bg-gray-800 p-3 rounded-lg space-y-2"><label class="text-sm text-gray-400">Active Days</label><div class="grid grid-cols-4 gap-2 text-xs">${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, i) => `<div><input type="checkbox" name="day_${day.toLowerCase()}" id="edit_day_${i}" value="${i}" ${(reward.dailySchedule && reward.dailySchedule.days.includes(i)) ? 'checked' : ''}> <label for="edit_day_${i}">${day}</label></div>`).join('')}</div><label class="text-sm text-gray-400">Active Time Ranges</label><div id="daily-times-container" class="space-y-2"></div><button type="button" onclick="app.addDailyTimeRow()" class="text-sm text-pink-400 hover:underline">+ Add Time Range</button></div>
+                    <div x-show="claimType === 'scheduled'" class="space-y-2"><div id="scheduled-dates-container"></div><button type="button" onclick="app.addScheduleRow()" class="text-sm text-pink-400 hover:underline">+ Add Date/Time</button></div>
+                    
+                    <div><label class="text-sm text-gray-400">Total Availability</label><select name="claimLimitType" x-model="limitType" class="w-full bg-gray-700 rounded-lg p-3 mt-1"><option value="unlimited">Unlimited</option><option value="limited">Limited</option></select></div>
+                    <div x-show="limitType === 'limited'"><input name="claimLimit" type="number" placeholder="Total number of claims" value="${reward.claimLimit || ''}" class="w-full bg-gray-700 rounded-lg p-3 mt-1"></div>
+
+                    <div class="flex items-center space-x-2"><input type="checkbox" id="reward-visible-edit" name="isVisible" ${reward.isVisible ? 'checked' : ''} class="h-5 w-5 rounded accent-pink-500"><label for="reward-visible-edit">Visible to Members</label></div>
+                    <button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold mt-4">Save Changes</button>
+                </form>
+                `;
+                this.openFullscreenModal(`Edit Reward: ${reward.name}`, content);
+
+                // Populate dynamic fields after modal is rendered
+                if (reward.claimType === 'daily' && reward.dailySchedule && reward.dailySchedule.times) {
+                    reward.dailySchedule.times.forEach(time => this.addDailyTimeRow(time.start, time.end));
+                }
+                if (reward.claimType === 'scheduled' && reward.schedules) {
+                    reward.schedules.forEach(schedule => {
+                        const [date, start] = schedule.startDate.split('T');
+                        const [, end] = schedule.endDate.split('T');
+                        this.addScheduleRow(date, start, end);
+                    });
+                }
+
+                document.getElementById('admin-edit-reward-form').addEventListener('submit', this.handleAdminUpdateReward.bind(this));
+            };
             this.openBadgeEditModal = (badgeId) => { const badge = this.state.badges.find(b => b.id === badgeId); if (!badge) return; const content = `<form id="admin-edit-badge-form" class="space-y-4"><input type="hidden" name="badgeId" value="${badge.id}"><input name="badgeName" value="${badge.name}" type="text" placeholder="Badge Name" required class="w-full bg-gray-700 rounded-lg p-3"><input name="badgeDescription" value="${badge.description}" type="text" placeholder="Description" required class="w-full bg-gray-700 rounded-lg p-3"><div x-data="{ method: 'select' }"><label class="text-sm text-gray-400">Icon</label><div class="flex space-x-2 p-1 bg-gray-800 rounded-lg my-1"><button type="button" @click="method = 'select'" :class="{ 'pride-gradient-bg text-white': method === 'select', 'bg-gray-700': method !== 'select' }" class="flex-1 py-1 rounded-md text-sm">Select from List</button><button type="button" @click="method = 'text'" :class="{ 'pride-gradient-bg text-white': method === 'text', 'bg-gray-700': method !== 'text' }" class="flex-1 py-1 rounded-md text-sm">Type Name</button><button type="button" @click="method = 'url'" :class="{ 'pride-gradient-bg text-white': method === 'url', 'bg-gray-700': method !== 'url' }" class="flex-1 py-1 rounded-md text-sm">Use URL</button></div><div x-show="method === 'select'"><div class="flex items-center space-x-2"><select name="badgeIconSelect" class="w-full bg-gray-700 rounded-lg p-3">${this.getIconOptions()}</select></div></div><div x-show="method === 'text'" style="display: none;"><input name="badgeIconText" value="${badge.icon.startsWith('http') ? '' : badge.icon}" type="text" placeholder="e.g., 'rocket', 'award'" class="w-full bg-gray-700 rounded-lg p-3"></div><div x-show="method === 'url'" style="display: none;"><input name="badgeIconUrl" value="${badge.icon.startsWith('http') ? badge.icon : ''}" type="url" placeholder="https://example.com/icon.png" class="w-full bg-gray-700 rounded-lg p-3"></div></div><div x-data="{ criteria: '${badge.criteria.type}' }"><label class="text-sm text-gray-400">Criteria</label><select name="badgeCriteriaType" @change="criteria = $event.target.value" class="w-full bg-gray-700 rounded-lg p-3 mt-1"><option value="special" ${badge.criteria.type === 'special' ? 'selected' : ''}>Special (Admin Awarded)</option><option value="points" ${badge.criteria.type === 'points' ? 'selected' : ''}>Points Earned</option><option value="events" ${badge.criteria.type === 'events' ? 'selected' : ''}>Events Attended</option></select><div x-show="criteria !== 'special'"><input name="badgeCriteriaValue" value="${badge.criteria.value || ''}" type="number" placeholder="Value (e.g., 500)" class="w-full bg-gray-700 rounded-lg p-3 mt-2"></div></div><div class="flex items-center space-x-2"><input type="checkbox" id="badge-visible-edit" name="isVisible" ${badge.isVisible ? 'checked' : ''} class="h-5 w-5 rounded accent-pink-500"><label for="badge-visible-edit">Visible to Members</label></div><button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold">Save Changes</button></form>`; this.openFullscreenModal(`Edit Badge: ${badge.name}`, content); document.getElementById('admin-edit-badge-form').addEventListener('submit', this.handleAdminUpdateBadge.bind(this)); };
             this.openRewardQrModal = (rewardId) => { const reward = this.state.rewards.find(r => r.id === rewardId); if (!reward) return; const content = `<div class="text-center"><p class="mb-4 text-lg font-semibold">${reward.name}</p><div class="bg-white p-4 rounded-xl max-w-xs mx-auto"><canvas id="modal-reward-qr"></canvas></div><p class="mt-4 text-gray-400">Scan this code to ${reward.type === 'cost' ? `redeem for ${reward.cost} points` : `gain ${reward.cost} points`}.</p></div>`; this.openFullscreenModal(`Reward QR Code`, content); this.generateQRCode('modal-reward-qr', JSON.stringify({ type: 'reward', id: reward.id }), 256); };
             this.openPointsLogModal = () => { const logs = this.state.pointLogs; const content = `<div class="space-y-3">${logs.map(log => `<div class="bg-gray-700 p-3 rounded-lg"><div class="flex justify-between items-center"><p>${log.description}</p><p class="font-bold ${log.points >= 0 ? 'text-green-400' : 'text-red-400'}">${log.points >= 0 ? '+' : ''}${log.points} PTS</p></div><p class="text-xs text-gray-400 mt-1">${log.timestamp}</p></div>`).join('') || '<p class="text-center text-gray-400">No transactions yet.</p>'}</div>`; this.openFullscreenModal('Points History', content); };
