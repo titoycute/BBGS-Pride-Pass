@@ -171,7 +171,7 @@
 
         /* Rainbow-Linear Overrides */
         body.theme-rainbow2 {
-            background: linear-gradient(45deg,#ff00b3, #0084ff, #0099ff);
+            background: linear-gradient(45deg, #ff00b3, #0084ff, #0099ff);
             background-size: 400% 400%;
             animation: rainbow-bg 15s ease infinite;
         }
@@ -356,11 +356,11 @@
         /* Green Theme Overrides */
         body.theme-green {
             background-color: #064e3b !important;
-           
+
         }
 
         body.theme-green #app {
-             background-image: url('  https://i.pinimg.com/736x/87/3d/90/873d90d90227a19d005d6c9c74de8d76.jpg');
+            background-image: url('  https://i.pinimg.com/736x/87/3d/90/873d90d90227a19d005d6c9c74de8d76.jpg');
             background-color: #064e3b !important;
             color: #ecfdf5 !important;
         }
@@ -466,6 +466,9 @@
 </head>
 
 <body class="bg-gray-900 text-white antialiased">
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"></script>
     <div id="video-background-container"></div>
     <div id="app" class="max-w-lg mx-auto min-h-screen bg-gray-800 shadow-2xl flex flex-col">
         <!-- Loading Spinner -->
@@ -584,9 +587,9 @@
         // --- Main Application Logic ---
         const App = function () {
             // --- STATE MANAGEMENT ---
-             const currentDate = new Date();
+            const currentDate = new Date();
             this.state = {
-                  calendarDate: currentDate,
+                calendarDate: currentDate,
                 currentPage: 'auth',
                 loggedInUser: null, // This will hold the user profile from Firestore
                 firebaseUser: null, // This will hold the auth user object
@@ -604,7 +607,7 @@
                     month: (currentDate.getMonth() + 1).toString(),
                     day: currentDate.getDate().toString(), // Set the default day to the current day
                 },
-                 adminEmail: 'titoycustodio@bipsu.edu.ph',
+                adminEmail: 'titoycustodio@bipsu.edu.ph',
                 adminActiveTab: 'verification',
                 adminMemberSearch: '',
                 adminRewardSearch: '',
@@ -652,24 +655,29 @@
 
             // --- TEMPLATES / VIEWS ---
             this.templates = {
-                auth: () => `
-                    <div class="text-center">
-                        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/236ecf96-a881-428d-9213-83d1c7313131/dkeifgy-9ff321c6-6ecc-45a8-8bab-23c6948a37fb.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzIzNmVjZjk2LWE4ODEtNDI4ZC05MjEzLTgzZDFjNzMxMzEzMVwvZGtlaWZneS05ZmYzMjFjNi02ZWNjLTQ1YTgtOGJhYi0yM2M2OTQ4YTM3ZmIucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.VJGuojZj4NXBuMknJXQ2PmAAensLWE7pi2M7oFMWcfg" onerror="this.onerror=null;this.src='https://placehold.co/128x128/BE185D/FFFFFF?text=BBGS';" alt="BBGS Logo" class="w-24 h-24 rounded-2xl mx-auto mb-4 object-cover">
-                        <h1 class="text-3xl font-bold mb-2">Welcome to <span class="pride-gradient-text">Pride Pass</span></h1>
-                        <p class="text-gray-400 mb-8">Connecting Our Community, One Scan at a Time.</p>
-                    </div>
-                    <div x-data="{ tab: 'login' }" class="bg-gray-900 rounded-xl p-2">
-                        <div class="flex space-x-2 mb-4"><button @click="tab = 'login'" :class="{ 'pride-gradient-bg text-white': tab === 'login', 'bg-gray-700 text-gray-300': tab !== 'login' }" class="flex-1 py-2 rounded-lg font-semibold transition-all">Log In</button><button @click="tab = 'register'" :class="{ 'pride-gradient-bg text-white': tab === 'register', 'bg-gray-700 text-gray-300': tab !== 'register' }" class="flex-1 py-2 rounded-lg font-semibold transition-all">Register</button></div>
-                        <div x-show="tab === 'login'">
-                            <form id="login-form" class="space-y-4 p-4">
-                                <input name="email" type="email" placeholder="Email Address" required class="w-full bg-gray-700 border-2 border-transparent focus:border-pink-500 rounded-lg p-3 outline-none transition-all">
-                                <input name="password" type="password" placeholder="Password" required class="w-full bg-gray-700 border-2 border-transparent focus:border-pink-500 rounded-lg p-3 outline-none transition-all">
-                                <button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold transition-transform duration-200 active:scale-95">Log In</button>
-                            </form>
-                     <!--       <div class="relative my-4"><div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-600"></div></div><div class="relative flex justify-center text-sm"><span class="bg-gray-900 px-2 text-gray-400">Or continue with</span></div></div>
-                            <button type="button" onclick="app.handleGoogleLogin()" class="w-full flex items-center justify-center space-x-2 bg-white text-gray-800 py-3 rounded-lg font-semibold transition-colors hover:bg-gray-200"><svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.021 35.596 44 30.138 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg><span>Sign in with Google</span></button>
-                     -->   </div>
-                        <div x-show="tab === 'register'" style="display: none;"><form id="register-form" class="space-y-4 p-4"><div class="grid grid-cols-2 gap-4"><input name="firstName" type="text" placeholder="First Name*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="lastName" type="text" placeholder="Last Name*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="middleName" type="text" placeholder="Middle Name" class="w-full bg-gray-700 rounded-lg p-3"><input name="suffix" type="text" placeholder="Suffix" class="w-full bg-gray-700 rounded-lg p-3"></div><input name="skills" type="text" placeholder="Skills/Talents (e.g., Host, Singer)" required class="w-full bg-gray-700 rounded-lg p-3"><input name="contact" type="tel" placeholder="Contact Number*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="social" type="text" placeholder="Social Media Address" class="w-full bg-gray-700 rounded-lg p-3"><input name="email" type="email" placeholder="Email Address*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="password" type="password" placeholder="Password*" required class="w-full bg-gray-700 rounded-lg p-3"><button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold">Create My Account</button></form></div>
+             auth: () => `
+                    <div class="relative h-full">
+                        <div class="absolute top-0 right-0">
+                            <button onclick="app.navigateTo('about')" class="p-2 rounded-full bg-gray-700/50 hover:bg-gray-600/50 transition-colors">
+                                <i data-lucide="info" class="w-6 h-6 text-white"></i>
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/236ecf96-a881-428d-9213-83d1c7313131/dkd5vnt-9b2c83cb-9a07-4833-9bf0-c8f73ef3509e.png/v1/fill/w_894,h_894/bbgs_logo_by_titoycute_dkd5vnt-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTI4MCIsInBhdGgiOiJcL2ZcLzIzNmVjZjk2LWE4ODEtNDI4ZC05MjEzLTgzZDFjNzMxMzEzMVwvZGtkNXZudC05YjJjODNjYi05YTA3LTQ4MzMtOWJmMC1jOGY3M2VmMzUwOWUucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.UwsCveUIwpaz7Z9bnrH8M757Oy8GnnGis0NP32nmdYU" onerror="this.onerror=null;this.src='https://placehold.co/128x128/BE185D/FFFFFF?text=BBGS';" alt="BBGS Logo" class="w-24 h-24 rounded-2xl mx-auto mb-4 object-cover">
+                            <h1 class="text-3xl font-bold mb-2">Welcome to <span class="pride-gradient-text">BBGS Pride Pass</span></h1>
+                            <p class="text-gray-400 mb-8">Connecting Our Community, One Scan at a Time.</p>
+                        </div>
+                        <div x-data="{ tab: 'login' }" class="bg-gray-900 rounded-xl p-2">
+                            <div class="flex space-x-2 mb-4"><button @click="tab = 'login'" :class="{ 'pride-gradient-bg text-white': tab === 'login', 'bg-gray-700 text-gray-300': tab !== 'login' }" class="flex-1 py-2 rounded-lg font-semibold transition-all">Log In</button><button @click="tab = 'register'" :class="{ 'pride-gradient-bg text-white': tab === 'register', 'bg-gray-700 text-gray-300': tab !== 'register' }" class="flex-1 py-2 rounded-lg font-semibold transition-all">Register</button></div>
+                            <div x-show="tab === 'login'">
+                                <form id="login-form" class="space-y-4 p-4">
+                                    <input name="email" type="email" placeholder="Email Address" required class="w-full bg-gray-700 border-2 border-transparent focus:border-pink-500 rounded-lg p-3 outline-none transition-all">
+                                    <input name="password" type="password" placeholder="Password" required class="w-full bg-gray-700 border-2 border-transparent focus:border-pink-500 rounded-lg p-3 outline-none transition-all">
+                                    <button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold transition-transform duration-200 active:scale-95">Log In</button>
+                                </form>
+                            </div>
+                            <div x-show="tab === 'register'" style="display: none;"><form id="register-form" class="space-y-4 p-4"><div class="grid grid-cols-2 gap-4"><input name="firstName" type="text" placeholder="First Name*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="lastName" type="text" placeholder="Last Name*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="middleName" type="text" placeholder="Middle Name" class="w-full bg-gray-700 rounded-lg p-3"><input name="suffix" type="text" placeholder="Suffix" class="w-full bg-gray-700 rounded-lg p-3"></div><input name="skills" type="text" placeholder="Skills/Talents (e.g., Host, Singer)" required class="w-full bg-gray-700 rounded-lg p-3"><input name="contact" type="tel" placeholder="Contact Number*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="social" type="text" placeholder="Social Media Address" class="w-full bg-gray-700 rounded-lg p-3"><input name="email" type="email" placeholder="Email Address*" required class="w-full bg-gray-700 rounded-lg p-3"><input name="password" type="password" placeholder="Password*" required class="w-full bg-gray-700 rounded-lg p-3"><button type="submit" class="w-full pride-gradient-bg text-white py-3 rounded-lg font-semibold">Create My Account</button></form></div>
+                        </div>
                     </div>`,
                 dashboard: () => {
                     const user = this.state.loggedInUser;
@@ -726,8 +734,35 @@
                                 <span class="font-semibold">My Profile</span>
                             </button>
                         </div>
+
+                        <button onclick="app.navigateTo('facebookFeed')" class="bg-blue-600/80 p-4 rounded-xl flex items-center justify-center space-x-2 hover:bg-blue-500/80 transition-colors w-full">
+                            <i data-lucide="facebook"></i>
+                            <span class="font-semibold">BBGS Updates</span>
+                        </button>
                     </div>`;
                 },
+          facebookFeed: () => `
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold">Facebook Updates</h2>
+                        <button onclick="app.navigateTo('dashboard')" class="bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-gray-600">
+                            <i data-lucide="arrow-left"></i>
+                            <span>Back</span>
+                        </button>
+                    </div>
+                    <div class="bg-white rounded-lg overflow-hidden">
+                        <div class="fb-page" 
+                             data-href="https://www.facebook.com/BBGSofficial" 
+                             data-tabs="timeline" 
+                             data-small-header="false" 
+                             data-adapt-container-width="true" 
+                             data-hide-cover="false" 
+                             data-show-facepile="true">
+                            <blockquote cite="https://www.facebook.com/BBGSofficial" class="fb-xfbml-parse-ignore">
+                                <a href="https://www.facebook.com/BBGSofficial">Biliran Bisexual and Gay Society - BBGS</a>
+                            </blockquote>
+                        </div>
+                    </div>
+                `,
                 events: () => {
                     return `
                     <div x-data="{ view: 'calendar' }">
@@ -928,8 +963,25 @@
                     `
                 },
                 scanner: () => `<div class="text-center"><h2 class="text-2xl font-bold mb-2">Scan QR Code</h2><p class="text-gray-400 mb-4">Scan an event or reward QR code.</p><div id="qr-reader" class="w-full rounded-2xl overflow-hidden border-4 border-gray-700"></div><p id="qr-reader-status" class="mt-4 text-sm text-gray-400">Initializing camera...</p></div>`,
-                about: () => `<h2 class="text-2xl font-bold text-center mb-6">About Pride Pass</h2><div class="space-y-6 bg-gray-900/50 p-6 rounded-xl"><div><h3 class="font-semibold text-lg text-pink-400 mb-2">BBGS Pride Pass: Your Community Hub</h3><p class="text-gray-300">The BBGS Pride Pass is a digital initiative by the Biliran Bisexual and Gay Society. It’s your all-in-one community pass, using an innovative QR code system to connect us, streamline event check-ins, and make it easier than ever to be an active part of the BBGS family.</p></div><div><h3 class="font-semibold text-lg text-purple-400 mb-2">Points, Badges, & Leaderboard</h3><p class="text-gray-300">We celebrate your engagement!<br> Our <storng>Points & Badges System</strong> rewards you for attending events, volunteering, and participating in workshops. As you earn points, you'll unlock special digital badges and climb the <strong>Leaderboard</strong>, showcasing your commitment to the community. Redeem your points for exclusive merch, VIP access, and more!</p></div><div><h3 class="font-semibold text-lg text-amber-400 mb-2">Support & Connect</h3><p class="text-gray-300">This platform was built to serve you. Your support is vital for our growth and for adding more features for the community. For technical issues, feedback, or inquiries about the platform, please contact our administrator:<br><strong class="text-white"><!--${this.state.adminEmail}--> Tito Amerigo V. Custodio, Jr., MIT <br> titoycustodio@bipsu.edu.ph</strong><br><strong>09666517133</strong></p></div><p class="text-center text-xs text-gray-500 pt-4">App Version 2.0.2 (BBGS Pride Pass QR Code System) <br> © 2025 BBGS Dev Tootz </p></div>`,
-                profile: () => {
+               about: () => `
+                    ${!this.state.loggedInUser ? `
+                    <div class="mb-4 text-right">
+                        <button onclick="app.navigateTo('auth')" class="bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg flex items-center space-x-2 ml-auto hover:bg-gray-600">
+                            <i data-lucide="x"></i>
+                            <span>Close</span>
+                        </button>
+                    </div>
+                    ` : ''}
+                    <h2 class="text-2xl font-bold text-center mb-6">About Pride Pass</h2>
+                    <div class="space-y-6 bg-gray-900/50 p-6 rounded-xl">
+                        <div>
+                        <div><h3 class="font-semibold text-lg text-pink-400 mb-2">BBGS Pride Pass: Your Community Hub</h3>
+                            <p class="text-gray-300">The BBGS Pride Pass is a digital initiative by the Biliran Bisexual and Gay Society. It’s your all-in-one community pass, using an innovative QR code system to connect us, streamline event check-ins, and make it easier than ever to be an active part of the BBGS family.</p></div>
+                            <div><h3 class="font-semibold text-lg text-purple-400 mb-2">Points, Badges, & Leaderboard</h3>
+                                <p class="text-gray-300">We celebrate your engagement!<br> Our <storng>Points & Badges System</strong> rewards you for attending events, volunteering, and participating in workshops. As you earn points, you'll unlock special digital badges and climb the <strong>Leaderboard</strong>, showcasing your commitment to the community. Redeem your points for exclusive merch, VIP access, and more!</p></div><div><h3 class="font-semibold text-lg text-amber-400 mb-2">Support & Connect</h3><p class="text-gray-300">This platform was built to serve you. Your support is vital for our growth and for adding more features for the community. For technical issues, feedback, or inquiries about the platform, please contact our administrator:<br><strong class="text-white"><!--${this.state.adminEmail}--> Tito Amerigo V. Custodio, Jr., MIT <br> titoycustodio@bipsu.edu.ph</strong><br><strong>09666517133</strong></p></div><p class="text-center text-xs text-gray-500 pt-4">App Version 2.0.2 (BBGS Pride Pass QR Code System) <br> © 2025 BBGS Dev Tootz </p></div>`,
+                        
+                    
+                      profile: () => {
                     const user = this.state.loggedInUser;
                     const earnedBadges = this.state.earnedBadges.map(earned => this.state.badges.find(b => b.id === earned.badgeId)).filter(Boolean);
                     return `
@@ -1181,7 +1233,7 @@
                 if (this.state.loggedInUser && !this.state.loggedInUser.isValidated && ['scanner', 'directory', 'leaderboard', 'rewards', 'badges'].includes(page)) {
                     return this.showModal('info', 'Account Pending', 'This feature is available after your account is approved by an admin.');
                 }
-                
+
 
                 if (page === 'admin') {
                     this.fetchAllRewardsForAdmin();
@@ -1217,6 +1269,12 @@
                 switch (this.state.currentPage) {
                     case 'dashboard':
                         if (this.state.loggedInUser.isValidated) this.generateQRCode('member-qr-code', JSON.stringify({ type: 'member', id: this.state.loggedInUser.id }), 80);
+                        break;
+
+                          case 'facebookFeed':
+                        if (typeof FB !== 'undefined') {
+                            FB.XFBML.parse();
+                        }
                         break;
                     case 'leaderboard':
                         const mainEl = this.elements.mainContent;
@@ -1560,7 +1618,7 @@
                     this.render(); // Re-render with the new items
                 }, 500);
             };
-            
+
             // (This goes after the loadMoreLeaderboard function around line 1999)
 
             this.fetchAllRewardsForAdmin = async () => {
@@ -1840,7 +1898,8 @@
                     });
             };
             this.handleDirectorySearch = () => { this.state.directorySearch = document.getElementById('directory-search-input').value.toLowerCase(); this.render(); };
-            this.handleAdminSearch = (type, term) => { const lowercasedTerm = term.toLowerCase(); if (type === 'member') this.state.adminMemberSearch = lowercasedTerm; if (type === 'reward') this.state.adminRewardSearch = lowercasedTerm; this.render(); 
+            this.handleAdminSearch = (type, term) => {
+                const lowercasedTerm = term.toLowerCase(); if (type === 'member') this.state.adminMemberSearch = lowercasedTerm; if (type === 'reward') this.state.adminRewardSearch = lowercasedTerm; this.render();
 
             };
             // (This goes after the handleAdminSearch function around line 2146)
