@@ -868,7 +868,7 @@
                     `
                 },
 
-                leaderboard: () => {
+               leaderboard: () => {
                     const rankedUsers = this.state.users
                         .filter(u => u.isValidated)
                         .sort((a, b) => b.points - a.points);
@@ -910,12 +910,14 @@
                     <div class="text-center py-6 h-12">
                         ${this.state.leaderboardLoading ?
                             `<div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-pink-500"></div>` :
-                            (this.state.leaderboardDisplayCount >= rankedUsers.length && rankedUsers.length > 0 ? '<p class="text-gray-500">You have reached the end.</p>' : '')
+                            (this.state.leaderboardDisplayCount < rankedUsers.length ?
+                                `<button onclick="app.loadMoreLeaderboard()" class="pride-gradient-bg text-white font-semibold px-6 py-2 rounded-lg transition-transform active:scale-95">Show More</button>` :
+                                (rankedUsers.length > 0 ? '<p class="text-gray-500">You have reached the end.</p>' : '')
+                            )
                         }
                     </div>
                     `
                 },
-
                 scanner: () => `<div class="text-center"><h2 class="text-2xl font-bold mb-2">Scan QR Code</h2><p class="text-gray-400 mb-4">Scan an event or reward QR code.</p><div id="qr-reader" class="w-full rounded-2xl overflow-hidden border-4 border-gray-700"></div><p id="qr-reader-status" class="mt-4 text-sm text-gray-400">Initializing camera...</p></div>`,
                 about: () => `<h2 class="text-2xl font-bold text-center mb-6">About Pride Pass</h2><div class="space-y-6 bg-gray-900/50 p-6 rounded-xl"><div><h3 class="font-semibold text-lg text-pink-400 mb-2">BBGS Pride Pass: Your Community Hub</h3><p class="text-gray-300">The BBGS Pride Pass is a digital initiative by the Biliran Bisexual and Gay Society. It’s your all-in-one community pass, using an innovative QR code system to connect us, streamline event check-ins, and make it easier than ever to be an active part of the BBGS family.</p></div><div><h3 class="font-semibold text-lg text-purple-400 mb-2">Points, Badges, & Leaderboard</h3><p class="text-gray-300">We celebrate your engagement!<br> Our <storng>Points & Badges System</strong> rewards you for attending events, volunteering, and participating in workshops. As you earn points, you'll unlock special digital badges and climb the <strong>Leaderboard</strong>, showcasing your commitment to the community. Redeem your points for exclusive merch, VIP access, and more!</p></div><div><h3 class="font-semibold text-lg text-amber-400 mb-2">Support & Connect</h3><p class="text-gray-300">This platform was built to serve you. Your support is vital for our growth and for adding more features for the community. For technical issues, feedback, or inquiries about the platform, please contact our administrator:<br><strong class="text-white"><!--${this.state.adminEmail}--> Tito Amerigo V. Custodio, Jr., MIT <br> titoycustodio@bipsu.edu.ph</strong><br><strong>09666517133</strong></p></div><p class="text-center text-xs text-gray-500 pt-4">App Version 2.0.2 (BBGS Pride Pass QR Code System) <br> © 2025 BBGS Dev Tootz </p></div>`,
                 profile: () => {
@@ -1195,7 +1197,8 @@
                     case 'dashboard':
                         if (this.state.loggedInUser.isValidated) this.generateQRCode('member-qr-code', JSON.stringify({ type: 'member', id: this.state.loggedInUser.id }), 80);
                         break;
-                    case 'leaderboard':
+
+                   
                         const mainEl = this.elements.mainContent;
                         mainEl.onscroll = () => {
                             const rankedUsers = this.state.users.filter(u => u.isValidated);
@@ -1434,6 +1437,7 @@
                             }
                         }
 
+                      
                         // Check scheduled dates
                         if (officialRewardData.claimType === 'scheduled') {
                             const activeSchedule = (officialRewardData.schedules || []).find(s => {
@@ -1441,8 +1445,17 @@
                                 const end = new Date(s.endDate);
                                 return now >= start && now <= end;
                             });
+
                             if (!activeSchedule) {
                                 return this.showModal('info', 'Not Active', 'This reward is not active at this time.');
+                            }
+
+                            // Create a unique ID for this specific claim window
+                            const claimIdForSchedule = `${qrData.id}_${activeSchedule.startDate}`;
+                            const scheduledClaimDoc = await getDoc(doc(this.fb.db, this.paths.claimedRewards(user.id), claimIdForSchedule));
+
+                            if (scheduledClaimDoc.exists()) {
+                                return this.showModal('info', 'Already Claimed', 'You have already claimed this reward for this specific schedule.');
                             }
                         }
 
@@ -1464,9 +1477,20 @@
                         // Set claim record
                         if (officialRewardData.claimType === 'daily') {
                             batch.set(doc(this.fb.db, this.paths.claimedRewards(user.id), `${qrData.id}_${todayStr}`), { rewardId: qrData.id, timestamp: new Date().toLocaleString() });
+                        }  
+                        else if (officialRewardData.claimType === 'scheduled') {
+                            const activeSchedule = (officialRewardData.schedules || []).find(s => {
+                                const start = new Date(s.startDate);
+                                const end = new Date(s.endDate);
+                                return new Date() >= start && new Date() <= end;
+                            });
+                            if (activeSchedule) {
+                                const claimIdForSchedule = `${qrData.id}_${activeSchedule.startDate}`;
+                                batch.set(doc(this.fb.db, this.paths.claimedRewards(user.id), claimIdForSchedule), { rewardId: qrData.id, timestamp: new Date().toLocaleString() });
+                            }
                         } else {
                             batch.set(doc(this.fb.db, this.paths.claimedRewards(user.id), qrData.id), { rewardId: qrData.id, timestamp: new Date().toLocaleString() });
-                        }
+                        }  
 
                         batch.update(userRef, { points: newPoints });
                         if (officialRewardData.claimLimitType === 'limited') {
@@ -1492,6 +1516,23 @@
                     this.showModal('error', 'Scan Failed', 'Could not process the QR code. It might be corrupted or invalid.');
                 }
             };
+
+
+
+            this.loadMoreLeaderboard = () => {
+                if (this.state.leaderboardLoading) return; // Prevent multiple clicks
+
+                this.state.leaderboardLoading = true;
+                this.render(); // Show the loading spinner
+
+                // Use a short delay to let the UI update before loading more
+                setTimeout(() => {
+                    this.state.leaderboardDisplayCount += 10; // Increase the number of users to show
+                    this.state.leaderboardLoading = false; // Reset the flag
+                    this.render(); // Re-render with the new items
+                }, 500);
+            };
+
 
             this.fetchRewards = async () => {
                 if (this.state.rewardsLoading || this.state.rewardsAllLoaded) return;
