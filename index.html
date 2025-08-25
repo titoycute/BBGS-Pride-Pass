@@ -1438,18 +1438,39 @@
             // --- QR CODE ---
             this.generateQRCode = (canvasId, text, size) => { const canvas = document.getElementById(canvasId); if (canvas) QRCode.toCanvas(canvas, text, { width: size, margin: 1 }, (err) => { if (err) console.error(err); }); };
             this.qrScanner = null;
-            this.startScanner = () => { const statusEl = document.getElementById('qr-reader-status'); 
-                this.qrScanner = new Html5Qrcode("qr-reader"); 
-                this.qrScanner.start({ facingMode: "environment" },
-                    {
-                        fps: 10,
-                        qrbox: { width: 250, height: 250 },
-                        experimentalFeatures: {
-                            useBarCodeDetectorIfSupported: true
-                        }
-                    }, (decodedText) => { this.handleScanSuccess(decodedText); 
-                this.stopScanner(); }, () => { }).catch(() => { statusEl.textContent = "Could not start camera."; }); 
-                statusEl.textContent = "Point camera at a QR code."; };
+         this.startScanner = () => {
+                const statusEl = document.getElementById('qr-reader-status');
+
+                // This line explicitly asks for camera permissions. This is the key change.
+                Html5Qrcode.getCameras().then(cameras => {
+                    // This part only runs if the user grants permission.
+                    if (cameras && cameras.length) {
+                        this.qrScanner = new Html5Qrcode("qr-reader");
+                        this.qrScanner.start(
+                            { facingMode: "environment" }, // We'll use the back camera
+                            {
+                                fps: 10,
+                                qrbox: { width: 250, height: 250 }
+                            },
+                            (decodedText) => {
+                                this.handleScanSuccess(decodedText);
+                                this.stopScanner();
+                            },
+                            () => { } // Ignore scans that aren't QR codes
+                        ).catch((err) => {
+                            console.error("Error after starting scanner:", err);
+                            statusEl.textContent = "Failed to start scanner.";
+                        });
+                        statusEl.textContent = "Point camera at a QR code.";
+                    } else {
+                        statusEl.textContent = "No cameras found on this device.";
+                    }
+                }).catch(err => {
+                    // This part runs if the user denies camera permission.
+                    console.error("Camera permission error:", err);
+                    statusEl.textContent = "Camera access is required. Please grant permission in your app settings.";
+                });
+            };
             this.stopScanner = () => { if (this.qrScanner && this.qrScanner.isScanning) { this.qrScanner.stop().catch(err => console.error("Scanner stop failed", err)); } };
 
             // (Line 1836)
